@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vinyl Lighting — Voice Search</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="page">
+    <header class="top">
+      <h1>🎙️ Vinyl Lighting</h1>
+      <nav class="top-nav">
+        <a href="admin.html">Admin</a>
+      </nav>
+    </header>
+
+    <div class="card">
+      <div class="mic-row">
+        <button id="mic-btn" title="Start listening">🎤</button>
+        <span id="mic-status">Tap the mic and say a genre, e.g. "deep house"</span>
+      </div>
+      <div id="transcript"></div>
+    </div>
+
+    <div class="card">
+      <div id="result-message"></div>
+      <ul id="record-list" class="record-list"></ul>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

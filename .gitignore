@@ -1,0 +1,5 @@
+node_modules/
+backend/db/vinyl.db
+backend/db/vinyl.db-shm
+backend/db/vinyl.db-wal
+.DS_Store
