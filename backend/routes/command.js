@@ -27,7 +27,14 @@ router.post('/', (req, res) => {
       artistNorm === normalized ||
       artistNorm.includes(normalized) ||
       normalized.includes(artistNorm);
-    return genreMatch || subgenreMatch || artistMatch;
+    const labelNorm = (record.label || '').toLowerCase();
+    const labelMatch =
+      labelNorm !== '' && (
+        labelNorm === normalized ||
+        labelNorm.includes(normalized) ||
+        normalized.includes(labelNorm)
+      );
+    return genreMatch || subgenreMatch || artistMatch || labelMatch;
   });
 
   const ledIndices = matched.map((r) => r.led_index);

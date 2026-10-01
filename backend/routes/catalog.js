@@ -39,7 +39,7 @@ router.get('/', (req, res) => {
 
 // POST /catalog — add a new record
 router.post('/', (req, res) => {
-  const { artist, title, genre, subgenres, led_index, shelf_position } = req.body;
+  const { artist, title, genre, subgenres, label, release_year, led_index, shelf_position } = req.body;
 
   const errors = validateRecordBody(req.body);
   if (errors.length) {
@@ -53,10 +53,10 @@ router.post('/', (req, res) => {
 
   try {
     const stmt = db.prepare(`
-      INSERT INTO records (artist, title, genre, subgenres, led_index, shelf_position)
-      VALUES (?, ?, ?, ?, ?, ?)
+      INSERT INTO records (artist, title, genre, subgenres, label, release_year, led_index, shelf_position)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     `);
-    const result = stmt.run(artist, title, genre, subgenres ?? null, led_index, shelf_position ?? null);
+    const result = stmt.run(artist, title, genre, subgenres ?? null, label ?? null, release_year ?? null, led_index, shelf_position ?? null);
     const created = db.prepare('SELECT * FROM records WHERE id = ?').get(result.lastInsertRowid);
     res.status(201).json(created);
   } catch (err) {
@@ -85,6 +85,8 @@ router.put('/:id', (req, res) => {
     title: req.body.title ?? existing.title,
     genre: req.body.genre ?? existing.genre,
     subgenres: req.body.subgenres ?? existing.subgenres,
+    label: req.body.label ?? existing.label,
+    release_year: req.body.release_year ?? existing.release_year,
     led_index: req.body.led_index ?? existing.led_index,
     shelf_position: req.body.shelf_position ?? existing.shelf_position,
   };
@@ -97,9 +99,9 @@ router.put('/:id', (req, res) => {
   try {
     db.prepare(`
       UPDATE records
-      SET artist = ?, title = ?, genre = ?, subgenres = ?, led_index = ?, shelf_position = ?
+      SET artist = ?, title = ?, genre = ?, subgenres = ?, label = ?, release_year = ?, led_index = ?, shelf_position = ?
       WHERE id = ?
-    `).run(merged.artist, merged.title, merged.genre, merged.subgenres, merged.led_index, merged.shelf_position, id);
+    `).run(merged.artist, merged.title, merged.genre, merged.subgenres, merged.label, merged.release_year, merged.led_index, merged.shelf_position, id);
     const updated = db.prepare('SELECT * FROM records WHERE id = ?').get(id);
     res.json(updated);
   } catch (err) {
